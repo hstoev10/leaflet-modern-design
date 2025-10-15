@@ -14,7 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      brochures: {
+        Row: {
+          category_id: string | null
+          created_at: string | null
+          description: string | null
+          downloads: number | null
+          featured: boolean | null
+          file_size: number | null
+          file_url: string | null
+          id: string
+          published_date: string | null
+          title: string
+          updated_at: string | null
+          views: number | null
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          downloads?: number | null
+          featured?: boolean | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          published_date?: string | null
+          title: string
+          updated_at?: string | null
+          views?: number | null
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          downloads?: number | null
+          featured?: boolean | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          published_date?: string | null
+          title?: string
+          updated_at?: string | null
+          views?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brochures_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          brochure_count: number | null
+          color: string
+          created_at: string | null
+          description: string | null
+          icon: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          brochure_count?: number | null
+          color: string
+          created_at?: string | null
+          description?: string | null
+          icon: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          brochure_count?: number | null
+          color?: string
+          created_at?: string | null
+          description?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
