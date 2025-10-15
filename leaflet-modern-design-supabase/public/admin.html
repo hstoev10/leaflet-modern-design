@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Leaflet Modern Design</title>
+  <style>body{font-family:Arial;padding:20px;max-width:900px;margin:auto}label{display:block;margin-top:8px}</style>
+</head>
+<body>
+<h1>Admin панел</h1>
+<section id="auth">
+  <h2>Вход / Регистрация</h2>
+  <label>Email <input id="email" /></label>
+  <label>Password <input id="password" type="password" /></label>
+  <button id="signup">Регистрация</button>
+  <button id="login">Вход</button>
+  <button id="logout">Изход</button>
+  <div id="user-info"></div>
+</section>
+
+<hr/>
+<section id="admin-actions" style="display:none">
+  <h2>Добавяне на категория</h2>
+  <label>Име <input id="cat-name" /></label>
+  <label>Описание <input id="cat-desc" /></label>
+  <button id="add-cat">Добави</button>
+
+  <h2>Добавяне на листовка</h2>
+  <label>Заглавие <input id="leaf-title" /></label>
+  <label>Съдържание <textarea id="leaf-content"></textarea></label>
+  <label>Категория <select id="leaf-cat"><option value=''>--</option></select></label>
+  <button id="add-leaf">Добави листовка</button>
+
+  <h2>Добавяне на въпрос + отговори</h2>
+  <label>Листовка <select id="q-leaf"></select></label>
+  <label>Въпрос <textarea id="q-text"></textarea></label>
+  <label>Отговор 1 <input id="a1" /> <input type="checkbox" id="a1c" /> верен</label>
+  <label>Отговор 2 <input id="a2" /> <input type="checkbox" id="a2c" /> верен</label>
+  <label>Отговор 3 <input id="a3" /> <input type="checkbox" id="a3c" /> верен</label>
+  <label>Отговор 4 <input id="a4" /> <input type="checkbox" id="a4c" /> верен</label>
+  <button id="add-q">Добави въпрос</button>
+</section>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leaflet Modern Design — Листовки за шофьори</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:20px;max-width:900px;margin:auto}
+    header{display:flex;justify-content:space-between;align-items:center}
+    #leaflet-list{margin-top:20px}
+    .leaflet-card{border:1px solid #ddd;padding:12px;margin-bottom:8px;border-radius:6px}
+    #question-box{margin-top:20px;padding:12px;border:1px solid #ccc;border-radius:6px}
+    button{padding:8px 12px;margin:6px}
+    .answer{display:block;margin:8px 0;padding:8px;border:1px solid #eee;border-radius:6px;cursor:pointer}
+    .answer.selected{background:#eef}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Листовки за шофьори</h1>
+  <nav>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
+
+<section>
+  <label>Търсене: <input id="search" placeholder="търси въпроси или заглавие..." /></label>
+  <label>Категория:
+    <select id="category-filter"><option value="">Всички</option></select>
+  </label>
+  <div id="leaflet-list"></div>
+</section>
+
+<section id="question-view" style="display:none">
+  <div id="question-box"></div>
+  <div>
+    <button id="prev-q">Предишен</button>
+    <button id="next-q">Следващ</button>
+  </div>
+</section>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>
