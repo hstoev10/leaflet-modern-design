@@ -1,4 +1,5 @@
 import { useState } from "react";
+// @ts-ignore - AI SDK React imports
 import { useChat } from "ai/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

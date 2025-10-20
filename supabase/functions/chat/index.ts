@@ -35,7 +35,7 @@ serve(async (req) => {
       ],
     });
 
-    return result.toDataStreamResponse({
+    return result.toTextStreamResponse({
       headers: corsHeaders,
     });
   } catch (error) {
