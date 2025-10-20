@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import VehicleCategories from "@/components/VehicleCategories";
 import LatestBrochures from "@/components/LatestBrochures";
 import Footer from "@/components/Footer";
+import ChatBot from "@/components/ChatBot";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
         <LatestBrochures />
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 };
