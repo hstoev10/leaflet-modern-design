@@ -1,6 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createGoogleGenerativeAI } from "npm:@ai-sdk/google";
-import { streamText } from "npm:ai";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,33 +13,58 @@ serve(async (req) => {
   try {
     const { messages } = await req.json();
     
-    const GOOGLE_AI_API_KEY = Deno.env.get('GOOGLE_AI_API_KEY');
-    if (!GOOGLE_AI_API_KEY) {
-      throw new Error('GOOGLE_AI_API_KEY is not configured');
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const google = createGoogleGenerativeAI({
-      apiKey: GOOGLE_AI_API_KEY,
+    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'google/gemini-2.5-flash',
+        messages: [
+          {
+            role: 'system',
+            content: 'Ти си полезен асистент за уебсайт с брошури на превозни средства. Отговаряй на въпроси за превозни средства, брошури и помагай на потребителите.',
+          },
+          ...messages,
+        ],
+        stream: true,
+      }),
     });
 
-    const result = await streamText({
-      model: google('gemini-1.5-flash'),
-      messages: [
-        {
-          role: 'system',
-          content: 'Ти си полезен асистент за уебсайт с брошури на превозни средства. Отговаряй на въпроси за превозни средства, брошури и помагай на потребителите.',
-        },
-        ...messages,
-      ],
-    });
+    if (!response.ok) {
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ error: 'Прекалено много заявки. Моля, опитайте по-късно.' }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({ error: 'Необходимо е добавяне на средства за AI заявки.' }),
+          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      const errorText = await response.text();
+      console.error('AI gateway error:', response.status, errorText);
+      return new Response(
+        JSON.stringify({ error: 'Грешка при свързване с AI услугата.' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
-    return result.toTextStreamResponse({
-      headers: corsHeaders,
+    return new Response(response.body, {
+      headers: { ...corsHeaders, 'Content-Type': 'text/event-stream' },
     });
   } catch (error) {
     console.error('Chat error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Неизвестна грешка' }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
